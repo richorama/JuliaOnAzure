@@ -233,7 +233,7 @@ function run_pipe(server::Server, pipe::ASCIIString)
 
 end
 
-using GnuTLS
+#using GnuTLS
 
 run_https(server::Server, auth::GnuTLS.CertificateStore, port::Integer) = run_https(server, auth, IPv4(0), port)
 function run_https(server::Server, auth::GnuTLS.CertificateStore, args...)
