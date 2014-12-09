@@ -1,15 +1,20 @@
-var exec = require('child_process').exec;
-exec('bin\\julia.exe', ["server.jl", process.env.port], function callback(error, stdout, stderr){
+var spawn = require('child_process').spawn;
+console.log("node is about to start julia");
+
+var ls spawn('bin\\julia.exe', ["server.jl", process.env.port], function callback(error, stdout, stderr){
     console.log(error);
     console.log(stdout);
     console.log(stderr);
 });
 
-var fs = require('fs');
-fs.writeFile("port.txt", process.env.port, function(err) {
-    if(err) {
-        console.log(err);
-    } else {
-        console.log("The file was saved!");
-    }
-}); 
+ls.stdout.on('data', function (data) {
+  console.log('stdout: ' + data);
+});
+
+ls.stderr.on('data', function (data) {
+  console.log('stderr: ' + data);
+});
+
+ls.on('close', function (code) {
+  console.log('child process exited with code ' + code);
+});
