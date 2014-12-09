@@ -1,3 +1,6 @@
+require('http').createServer(function(req, res){res.end(process.env.port);}).listen(process.env.port);
+
+/*
 push!(LOAD_PATH, ".")
 push!(LOAD_PATH, "C:\\Users\\Richard\\Code\\Jolt - Azure")
 
@@ -6,7 +9,7 @@ push!(LOAD_PATH, "C:\\Users\\Richard\\Code\\Jolt - Azure")
 for x in ENV
    println(x)
 end
-       
+
 
 using HttpServer
 using Jolt
@@ -45,3 +48,4 @@ http = HttpHandler(app.dispatch)
 server = Server(http)
 run_pipe(server, ENV["PORT"])
 
+*/
