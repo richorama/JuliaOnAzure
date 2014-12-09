@@ -1,10 +1,13 @@
 var spawn = require('child_process').spawn;
 console.log("node is about to start julia");
 
+var env = process.env;
+env["HOMEDRIVE"] = "C:";
+
 var ls = spawn('bin\\julia.exe', 
 	["server.jl", process.env.port], 
 	{ 
-		env : process.env,
+		env : env,
 		cwd : process.cwd()
 	},
 	function callback(error, stdout, stderr){
