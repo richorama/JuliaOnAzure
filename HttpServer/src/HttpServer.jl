@@ -235,33 +235,6 @@ end
 
 #using GnuTLS
 
-run_https(server::Server, auth::GnuTLS.CertificateStore, port::Integer) = run_https(server, auth, IPv4(0), port)
-function run_https(server::Server, auth::GnuTLS.CertificateStore, args...)
-    id_pool = 0
-    bind(server.http.sock,args...) || error("Given address not usable")
-    listen(server.http.sock)
-    event("listen", server, args...)
-    websockets_enabled = server.websock != nothing
-
-    while true
-        sess = GnuTLS.Session(true)
-        set_priority_string!(sess)
-        set_credentials!(sess,auth)
-        client = accept(server.http.sock)
-        try
-            associate_stream(sess,client)
-            handshake!(sess)
-        catch e
-            println("Error establishing SSL connection: ", e)
-            close(client)
-            continue
-        end
-        client = Client(id_pool += 1, sess)
-        client.parser = ClientParser(message_handler(server, client, websockets_enabled))
-        @async process_client(server, client, websockets_enabled) 
-    end
-end
-
 @doc """Handles live connections, runs inside a `Task`.
 
 Blocks ( yields ) until a line can be read, then passes it into `client.
