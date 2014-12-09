@@ -3,6 +3,7 @@ console.log("node is about to start julia");
 
 var env = process.env;
 env["HOMEDRIVE"] = "C:";
+env["HOMEPATH"] = "\\home\\site\\wwwroot";
 
 var ls = spawn('bin\\julia.exe', 
 	["server.jl", process.env.port], 
