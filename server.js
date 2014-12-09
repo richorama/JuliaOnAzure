@@ -1,30 +1,42 @@
-var spawn = require('child_process').spawn;
-console.log("node is about to start julia");
+println(ARGS[1])
 
-var env = process.env;
-env["HOMEDRIVE"] = "C:";
-env["HOMEPATH"] = "\\home\\site\\wwwroot";
+push!(LOAD_PATH, ".")
+push!(LOAD_PATH, "C:\\Users\\Richard\\Code\\Jolt - Azure")
 
-var ls = spawn('bin\\julia.exe', 
-	["server.jl", process.env.port], 
-	{ 
-		env : env,
-		cwd : process.cwd()
-	},
-	function callback(error, stdout, stderr){
-    console.log(error);
-    console.log(stdout);
-    console.log(stderr);
-});
+using HttpServer
+using Jolt
+using JoltView
+using JoltJson
 
-ls.stdout.on('data', function (data) {
-  console.log('stdout: ' + data);
-});
+app = jolt()
 
-ls.stderr.on('data', function (data) {
-  console.log('stderr: ' + data);
-});
+app.use() do req, res, ctx
+	url = req.resource
+	println("start $url")
+	produce()
+	println("end $url")
+end
 
-ls.on('close', function (code) {
-  console.log('child process exited with code ' + code);
-});
+app.get("/") do req, res, ctx
+	"hello world"
+end
+
+app.get("/hello/:name") do req, res, ctx
+	name = ctx.params[:name]
+	"hello $name"
+end
+
+app.get("/view/:name") do req, res, ctx
+	View("test", {"Name" => ctx.params[:name]})
+end
+
+app.get("/json/:foo") do req, res, ctx
+	x = Dict{String,Any}()
+	x["foo"] = ctx.params[:foo]
+	Json(x)
+end
+
+http = HttpHandler(app.dispatch) 
+server = Server(http)
+run_pipe(server, ASCIIString(ARGS[1].data))
+
