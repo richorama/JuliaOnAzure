@@ -1,7 +1,7 @@
 println(ARGS[1])
 
 push!(LOAD_PATH, ".")
-push!(LOAD_PATH, "C:\\Users\\Richard\\Code\\Jolt - Azure")
+# push!(LOAD_PATH, "C:\\Users\\Richard\\Code\\Jolt - Azure")
 
 using HttpServer
 using Jolt
