@@ -1,4 +1,4 @@
-require('http').createServer(function(req, res){res.end(process.env.port);}).listen(process.env.port);
+require('http').createServer(function(req, res){res.end("port = " + process.env.port);}).listen(process.env.port);
 
 /*
 push!(LOAD_PATH, ".")
