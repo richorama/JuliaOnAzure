@@ -2,6 +2,12 @@ push!(LOAD_PATH, ".")
 push!(LOAD_PATH, "C:\\Users\\Richard\\Code\\Jolt - Azure")
 
 
+
+for x in ENV
+   println(x)
+end
+       
+
 using HttpServer
 using Jolt
 using JoltView
