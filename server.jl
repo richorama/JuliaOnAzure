@@ -38,5 +38,5 @@ end
 
 http = HttpHandler(app.dispatch) 
 server = Server(http)
-run_pipe(server, promote(ASCIIString, ARGS[1]))
+run_pipe(server, ASCIIString(ARGS[1].data))
 
